@@ -37,4 +37,4 @@ async def play(ctx, url):
         voice_channel.play(discord.FFmpegPCMAudio(url2))
 
 
-bot.run('MTE3Njg2OTUxNjM2MjM5MTYwMw.GzBl32.OPKNapQDJ71zqL4mH1fqrpF6GJF2MDhRKgf5NM')
+bot.run('')
