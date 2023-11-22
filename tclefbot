@@ -1,0 +1,40 @@
+import discord
+from discord.ext import commands
+import youtube_dl
+
+# Create an instance of the bot
+bot = commands.Bot(command_prefix='!')
+
+@bot.event
+async def on_ready():
+    print(f'Logged in as {bot.user.name}')
+
+@bot.command()
+async def join(ctx):
+    channel = ctx.message.author.voice.channel
+    voice_channel = await channel.connect()
+
+@bot.command()
+async def leave(ctx):
+    await ctx.voice_client.disconnect()
+
+@bot.command()
+async def play(ctx, url):
+    voice_channel = ctx.voice_client
+
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+    }
+
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=False)
+        url2 = info['formats'][0]['url']
+        voice_channel.play(discord.FFmpegPCMAudio(url2))
+
+
+bot.run('MTE3Njg2OTUxNjM2MjM5MTYwMw.GzBl32.OPKNapQDJ71zqL4mH1fqrpF6GJF2MDhRKgf5NM')
